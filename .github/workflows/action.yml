@@ -1,0 +1,15 @@
+name: Upload workflow documentation
+# This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
+on:
+  push:
+
+
+jobs:
+  upload:
+    name: Upload Documentation
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+    - uses: actions/checkout@master
