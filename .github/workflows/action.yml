@@ -13,7 +13,7 @@ jobs:
 
     - uses: actions/checkout@master
 
-    - run: echo ${{ github.ref }}
+    - run: echo ${{ github.ref_name }}
 
     - name: Auth gcloud 
       uses: 'google-github-actions/auth@v0'
