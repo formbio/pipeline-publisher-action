@@ -3,7 +3,6 @@ name: Upload workflow documentation
 on:
   push:
 
-
 jobs:
   upload:
     name: Upload Documentation
@@ -23,3 +22,5 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
     - run: gsutil ls gs://bantha-pipelines/${{ github.event.repository.name }}
+
+    - run: echo "${{ github.event.base_ref }}"
