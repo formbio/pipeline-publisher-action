@@ -15,9 +15,22 @@ jobs:
 
     - uses: actions/checkout@master
 
-    - uses: actions/setup-go@v2
-      with:
-        go-version: ^1.18
-    - run: go version
+    # - uses: actions/setup-go@v2
+    #   with:
+    #     go-version: ^1.18
+    # - run: go version
 
-    - run: GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} go run main.go
+    # - run: GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} go run main.go
+
+
+    - name: Auth gcloud 
+      id: auth
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        project_id: tundra-central
+
+    - name: Set up gcloud
+      uses: google-github-actions/setup-gcloud@v0
+
+    - run: gsutil ls gs://bantha-pipelines
