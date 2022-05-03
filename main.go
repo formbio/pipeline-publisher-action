@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"cloud.google.com/go/storage"
-	"golang.org/x/oauth2/google"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
@@ -17,12 +16,12 @@ var (
 )
 
 func main() {
-	jwt, err := google.JWTConfigFromJSON([]byte(*creds))
-	if err != nil {
-		log.Fatalf("unable to read credentials: %s", err)
-	}
+	// jwt, err := google.JWTConfigFromJSON([]byte(*creds))
+	// if err != nil {
+	// 	log.Fatalf("unable to read credentials: %s", err)
+	// }
 
-	_ = jwt
+	// _ = jwt
 
 	gcs, err := storage.NewClient(ctx, option.WithCredentialsJSON([]byte(*creds)))
 	if err != nil {
