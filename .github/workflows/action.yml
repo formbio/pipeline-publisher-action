@@ -20,4 +20,4 @@ jobs:
         go-version: ^1.18
     - run: go version
 
-    - run: go run main.go
+    - run: GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} go run main.go
