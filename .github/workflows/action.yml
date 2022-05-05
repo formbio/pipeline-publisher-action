@@ -2,28 +2,39 @@ name: Upload workflow documentation
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 on:
   push:
+    branches:
+      - main
     tags:
+
+env:
+  GCS_BASE_PATH: gs://bantha-pipelines/${{ github.event.repository.name }}/${{ github.ref_name }}
 
 jobs:
   upload:
     name: Upload Documentation
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workflows    
 
     steps:
 
     - uses: actions/checkout@master
 
-    - run: echo ${{ github.ref_name }}
-
     - name: Auth gcloud 
       uses: 'google-github-actions/auth@v0'
       with:
-        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
         project_id: tundra-central
 
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
 
-    - run: gsutil ls gs://bantha-pipelines/${{ github.event.repository.name }}
-
-    - run: echo "${{ github.event }}"
+    - run: gsutil cp citations.md ${{ env.GCS_BASE_PATH }}/citations.md
+    - run: |
+        for d in */; do 
+          gsutil cp "${d}overview.md" "${{ env.GCS_BASE_PATH }}/${d}overview.md"
+          gsutil cp "${d}README.md" "${{ env.GCS_BASE_PATH }}/${d}readme.md"
+          gsutil cp "${d}inputs.md" "${{ env.GCS_BASE_PATH }}/${d}inputs.md"
+          gsutil cp "${d}outputs.md" "${{ env.GCS_BASE_PATH }}/${d}outputs.md"
+        done
