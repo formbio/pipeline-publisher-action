@@ -1,10 +1,15 @@
 name: Upload workflow documentation
+
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 on:
   workflow_call:
-
-env:
-  GCS_BASE_PATH: gs://bantha-pipelines/${{ github.event.repository.name }}/${{ github.ref_name }}
+    inputs:
+      upload_path:
+        required: true
+        type: string
+    secrets:
+      gcp_credentials:
+        required: true
 
 jobs:
   upload:
@@ -21,19 +26,19 @@ jobs:
     - name: Auth gcloud 
       uses: 'google-github-actions/auth@v0'
       with:
-        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+        credentials_json: ${{ secrets.gcp_credentials }}
         project_id: tundra-central
 
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
     
-    - run: echo "uploading to ${{ env.GCS_BASE_PATH }}"
+    - run: echo "uploading to ${{ inputs.upload_path }}"
 
-    - run: gsutil cp citations.md ${{ env.GCS_BASE_PATH }}/citations.md
+    - run: gsutil cp citations.md ${{ inputs.upload_path }}/citations.md
     - run: |
         for d in */; do 
-          gsutil cp "${d}overview.md" "${{ env.GCS_BASE_PATH }}/${d}overview.md"
-          gsutil cp "${d}README.md" "${{ env.GCS_BASE_PATH }}/${d}readme.md"
-          gsutil cp "${d}inputs.md" "${{ env.GCS_BASE_PATH }}/${d}inputs.md"
-          gsutil cp "${d}outputs.md" "${{ env.GCS_BASE_PATH }}/${d}outputs.md"
+          gsutil cp "${d}overview.md" "${{ inputs.upload_path }}/${d}overview.md"
+          gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"
+          gsutil cp "${d}inputs.md" "${{ inputs.upload_path }}/${d}inputs.md"
+          gsutil cp "${d}outputs.md" "${{ inputs.upload_path }}/${d}outputs.md"
         done
