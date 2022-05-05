@@ -1,10 +1,7 @@
 name: Upload workflow documentation
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 on:
-  push:
-    branches:
-      - main
-    tags:
+  workflow_call:
 
 env:
   GCS_BASE_PATH: gs://bantha-pipelines/${{ github.event.repository.name }}/${{ github.ref_name }}
@@ -29,6 +26,8 @@ jobs:
 
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
+    
+    - run: echo "uploading to ${{ env.GCS_BASE_PATH }}"
 
     - run: gsutil cp citations.md ${{ env.GCS_BASE_PATH }}/citations.md
     - run: |
