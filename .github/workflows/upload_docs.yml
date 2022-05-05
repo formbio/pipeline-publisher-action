@@ -3,10 +3,9 @@ name: Upload workflow documentation
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 on:
   workflow_call:
-    inputs:
-      upload_path:
-        required: true
-        type: string
+
+env:
+  GCS_PATH: gs://bantha-pipelines/${{ github.event.repository.name }}/${{ github.ref_name }}
 
 jobs:
   upload:
@@ -14,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: workflows    
-
+        working-directory: workflows
+  
     steps:
 
     - uses: actions/checkout@master
@@ -29,13 +28,13 @@ jobs:
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
     
-    - run: echo "uploading to ${{ inputs.upload_path }}"
+    - run: echo "uploading to ${{ env.GCS_PATH }}"
 
-    - run: gsutil cp citations.md ${{ inputs.upload_path }}/citations.md
+    - run: gsutil cp citations.md ${{ env.GCS_PATH }}/citations.md
     - run: |
         for d in */; do 
-          gsutil cp "${d}overview.md" "${{ inputs.upload_path }}/${d}overview.md"
-          gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"
-          gsutil cp "${d}inputs.md" "${{ inputs.upload_path }}/${d}inputs.md"
-          gsutil cp "${d}outputs.md" "${{ inputs.upload_path }}/${d}outputs.md"
+          gsutil cp "${d}overview.md" "${{ env.GCS_PATH }}/${d}overview.md"
+          gsutil cp "${d}README.md" "${{ env.GCS_PATH }}/${d}readme.md"
+          gsutil cp "${d}inputs.md" "${{ env.GCS_PATH }}/${d}inputs.md"
+          gsutil cp "${d}outputs.md" "${{ env.GCS_PATH }}/${d}outputs.md"
         done
