@@ -7,6 +7,9 @@ on:
       upload_path:
         required: true
         type: string
+      project:
+        required: true
+        type: string
 
 jobs:
   upload:
@@ -24,7 +27,7 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         credentials_json: ${{ secrets.DEVOPS_GCP_CREDENTIALS }}
-        project_id: tundra-central
+        project_id: ${{ inputs.project }}
 
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
