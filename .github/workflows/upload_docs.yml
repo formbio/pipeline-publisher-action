@@ -43,6 +43,6 @@ jobs:
           echo "uploading ${dir}inputs.md to ${{ inputs.upload_path }}/${dir}inputs.md"
           gsutil cp "${dir}inputs.md" "${{ inputs.upload_path }}/${dir}inputs.md"
 
-          echo "uploading ${dir}outputs.md to ${{ inputs.upload_path }}/${dir}outputs.md"
+          # echo "uploading ${dir}outputs.md to ${{ inputs.upload_path }}/${dir}outputs.md"
           gsutil cp "${dir}outputs.md" "${{ inputs.upload_path }}/${dir}outputs.md"
         done
