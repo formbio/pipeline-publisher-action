@@ -33,16 +33,9 @@ jobs:
 
     - run: gsutil cp citations.md ${{ inputs.upload_path }}/citations.md
     - run: |
-        for dir in */; do 
-          echo "uploading ${dir}overview.md to ${{ inputs.upload_path }}/${dir}overview.md"
-          gsutil cp "${dir}overview.md" "${{ inputs.upload_path }}/${dir}overview.md""
-
-          echo "uploading ${dir}README.md to ${{ inputs.upload_path }}/${dir}readme.md"
-          gsutil cp "${dir}README.md" "${{ inputs.upload_path }}/${dir}readme.md"
-                    
-          echo "uploading ${dir}inputs.md to ${{ inputs.upload_path }}/${dir}inputs.md"
-          gsutil cp "${dir}inputs.md" "${{ inputs.upload_path }}/${dir}inputs.md"
-
-          # echo "uploading ${dir}outputs.md to ${{ inputs.upload_path }}/${dir}outputs.md"
-          gsutil cp "${dir}outputs.md" "${{ inputs.upload_path }}/${dir}outputs.md"
+        for d in */; do 
+          gsutil cp "${d}overview.md" "${{ inputs.upload_path }}/${d}overview.md"
+          gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"
+          gsutil cp "${d}inputs.md" "${{ inputs.upload_path }}/${d}inputs.md"
+          gsutil cp "${d}outputs.md" "${{ inputs.upload_path }}/${d}outputs.md"
         done
