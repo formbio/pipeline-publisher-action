@@ -37,8 +37,8 @@ jobs:
     - run: gsutil cp citations.md ${{ inputs.upload_path }}/citations.md
     - run: |
         for d in */; do 
+          if [ -f "${d}README.md" ]; then gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"; fi
           gsutil cp "${d}overview.md" "${{ inputs.upload_path }}/${d}overview.md"
-          gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"
           gsutil cp "${d}inputs.md" "${{ inputs.upload_path }}/${d}inputs.md"
           gsutil cp "${d}outputs.md" "${{ inputs.upload_path }}/${d}outputs.md"
         done
