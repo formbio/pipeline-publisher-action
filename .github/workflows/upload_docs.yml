@@ -51,6 +51,6 @@ jobs:
     - name: "Uploading public assets"
       run: |
         for image in *.png; do 
-          $echo  "uploading ${image} to ${{ inputs.public_asset_path }}/${image}"
+          echo  "uploading ${image} to ${{ inputs.public_asset_path }}/${image}"
           gsutil cp $image "${{ inputs.public_asset_path }}/${image}"
         done 
