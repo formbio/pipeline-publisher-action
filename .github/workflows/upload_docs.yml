@@ -4,7 +4,10 @@ name: Upload workflow documentation
 on:
   workflow_call:
     inputs:
-      upload_path:
+      workflow_document_path:
+        required: true
+        type: string
+      public_asset_path:
         required: true
         type: string
       project:
@@ -32,18 +35,22 @@ jobs:
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v0
     
-    - run: echo "uploading to ${{ inputs.upload_path }}"
+    - run: echo "uploading documents to ${{ inputs.workflow_document_path }}"
 
-    - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
-    - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
-    - run: |
-        for image in *.png; do 
-          $echo  "uploading ${image} to ${{ inputs.upload_path }}-public-assets"
-          gsutil cp $image "${{ inputs.upload_path }}-public-assets/${image}"
-        done 
+    - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.workflow_document_path }}/citations.md; fi
+    - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.workflow_document_path }}/citations.md; fi
+    - name: "Uploading documents"
+      run: |
         for workflow_dir in */; do 
-          if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.upload_path }}/${workflow_dir}readme.md"; fi
-          if [ -f "${workflow_dir}overview.md" ]; then gsutil cp "${workflow_dir}overview.md" "${{ inputs.upload_path }}/${workflow_dir}overview.md"; fi
-          if [ -f "${workflow_dir}inputs.md" ];   then gsutil cp "${workflow_dir}inputs.md"   "${{ inputs.upload_path }}/${workflow_dir}inputs.md"; fi
-          if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.upload_path }}/${workflow_dir}outputs.md"; fi
+          if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.workflow_document_path }}/${workflow_dir}readme.md"; fi
+          if [ -f "${workflow_dir}overview.md" ]; then gsutil cp "${workflow_dir}overview.md" "${{ inputs.workflow_document_path }}/${workflow_dir}overview.md"; fi
+          if [ -f "${workflow_dir}inputs.md" ];   then gsutil cp "${workflow_dir}inputs.md"   "${{ inputs.workflow_document_path }}/${workflow_dir}inputs.md"; fi
+          if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.workflow_document_path }}/${workflow_dir}outputs.md"; fi
         done
+
+    - name: "Uploading public assets"
+      run: |
+        for image in *.png; do 
+          $echo  "uploading ${image} to ${{ inputs.public_asset_path }}/${image}"
+          gsutil cp $image "${{ inputs.public_asset_path }}/${image}"
+        done 
