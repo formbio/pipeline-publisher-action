@@ -77,6 +77,6 @@ jobs:
     - name: "Uploading public repo assets"
       run: |
         shopt -s nullglob; for image in *.png; do 
-          echo  "uploading ${image} to ${{ inputs.public_asset_path }}/assets/${image}"
-          # gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
+          echo "uploading ${image} to ${{ inputs.public_asset_path }}/assets/${image}"
+          gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
         done 
