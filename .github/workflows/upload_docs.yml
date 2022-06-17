@@ -76,7 +76,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
     - name: "Uploading public repo assets"
       run: |
-        for image in *.png; do 
+        shopt -s nullglob; for image in *.png; do 
           echo  "uploading ${image} to ${{ inputs.public_asset_path }}/assets/${image}"
           # gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
         done 
