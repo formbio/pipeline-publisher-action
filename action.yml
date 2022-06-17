@@ -1,15 +1,12 @@
 name: Upload workflow documentation
 
-# This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
-on:
-  workflow_call:
-    inputs:
-      upload_path:
-        required: true
-        type: string
-      project:
-        required: true
-        type: string
+inputs:
+  upload_path:
+    required: true
+    type: string
+  project:
+    required: true
+    type: string
 
 jobs:
   upload:
@@ -26,6 +23,7 @@ jobs:
     - uses: actions/setup-go@v2
       with:
         go-version: ^1.18
+        
     - run: go version
 
     - run: go run main.go
