@@ -50,7 +50,7 @@ jobs:
 
     - name: "Uploading public workflow assets"
       run: |
-        for image in *.png; do 
+        shopt -s nullglob; for image in *.png; do 
           echo  "uploading ${image} to ${{ inputs.public_asset_path }}/${image}"
           gsutil cp $image "${{ inputs.public_asset_path }}/${image}"
         done 
