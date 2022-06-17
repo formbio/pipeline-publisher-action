@@ -15,7 +15,7 @@ on:
         type: string
 
 jobs:
-  upload:
+  upload-workflow-docs:
     name: Upload Documentation
     runs-on: ubuntu-latest
     defaults:
@@ -48,9 +48,16 @@ jobs:
           if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.workflow_document_path }}/${workflow_dir}outputs.md"; fi
         done
 
-    - name: "Uploading public assets"
+    - name: "Uploading public workflow assets"
       run: |
         for image in *.png; do 
           echo  "uploading ${image} to ${{ inputs.public_asset_path }}/${image}"
           gsutil cp $image "${{ inputs.public_asset_path }}/${image}"
+        done 
+
+    - name: "Uploading public repo assets"
+      run: |
+        for image in ../assets/*.png; do 
+          echo  "uploading ${image} to ${{ inputs.public_asset_path }}/assets/${image}"
+          gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
         done 
