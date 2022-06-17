@@ -34,15 +34,16 @@ jobs:
     
     - run: echo "uploading to ${{ inputs.upload_path }}"
 
-    # - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
-    # - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
+    - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
+    - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
     - run: |
+        for image in *.png; do 
+          $echo  "uploading ${image} to ${{ inputs.upload_path }}-public-assets"
+          gsutil cp $image "${{ inputs.upload_path }}-public-assets/${image}"
+        done 
         for workflow_dir in */; do 
-          for pic in $workflow_dir*.png; do 
-            echo $pic
-          done
-          # if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.upload_path }}/${workflow_dir}readme.md"; fi
-          # if [ -f "${workflow_dir}overview.md" ]; then gsutil cp "${workflow_dir}overview.md" "${{ inputs.upload_path }}/${workflow_dir}overview.md"; fi
-          # if [ -f "${workflow_dir}inputs.md" ];   then gsutil cp "${workflow_dir}inputs.md"   "${{ inputs.upload_path }}/${workflow_dir}inputs.md"; fi
-          # if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.upload_path }}/${workflow_dir}outputs.md"; fi
+          if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.upload_path }}/${workflow_dir}readme.md"; fi
+          if [ -f "${workflow_dir}overview.md" ]; then gsutil cp "${workflow_dir}overview.md" "${{ inputs.upload_path }}/${workflow_dir}overview.md"; fi
+          if [ -f "${workflow_dir}inputs.md" ];   then gsutil cp "${workflow_dir}inputs.md"   "${{ inputs.upload_path }}/${workflow_dir}inputs.md"; fi
+          if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.upload_path }}/${workflow_dir}outputs.md"; fi
         done
