@@ -34,7 +34,8 @@ jobs:
     
     - run: echo "uploading to ${{ inputs.upload_path }}"
 
-    - run: if [ -f "${d}README.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
+    - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
+    - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
     - run: |
         for d in */; do 
           if [ -f "${d}README.md" ]; then gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"; fi
