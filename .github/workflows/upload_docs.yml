@@ -16,7 +16,7 @@ on:
 
 jobs:
   upload-workflow-docs:
-    name: Upload Documentation
+    name: Workflow Documentation
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -56,7 +56,7 @@ jobs:
         done 
 
   upload-repo-docs:
-    name: Upload Repo Documentation
+    name: Repo Documentation
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -78,5 +78,5 @@ jobs:
       run: |
         for image in *.png; do 
           echo  "uploading ${image} to ${{ inputs.public_asset_path }}/assets/${image}"
-          gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
+          # gsutil cp $image "${{ inputs.public_asset_path }}/assets/${image}"
         done 
