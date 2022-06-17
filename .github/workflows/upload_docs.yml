@@ -34,12 +34,15 @@ jobs:
     
     - run: echo "uploading to ${{ inputs.upload_path }}"
 
-    - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
-    - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
+    # - run: if [ -f "${d}CITATIONS.md" ]; then gsutil cp CITATIONS.md ${{ inputs.upload_path }}/citations.md; fi
+    # - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
     - run: |
-        for d in */; do 
-          if [ -f "${d}README.md" ]; then gsutil cp "${d}README.md" "${{ inputs.upload_path }}/${d}readme.md"; fi
-          if [ -f "${d}overview.md" ]; then gsutil cp "${d}overview.md" "${{ inputs.upload_path }}/${d}overview.md"; fi
-          if [ -f "${d}inputs.md" ]; then gsutil cp "${d}inputs.md" "${{ inputs.upload_path }}/${d}inputs.md"; fi
-          if [ -f "${d}outputs.md" ]; then gsutil cp "${d}outputs.md" "${{ inputs.upload_path }}/${d}outputs.md"; fi
+        for workflow_dir in */; do 
+          for pic in $workflow_dir/.*png; do 
+            echo $pic
+          done
+          # if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.upload_path }}/${workflow_dir}readme.md"; fi
+          # if [ -f "${workflow_dir}overview.md" ]; then gsutil cp "${workflow_dir}overview.md" "${{ inputs.upload_path }}/${workflow_dir}overview.md"; fi
+          # if [ -f "${workflow_dir}inputs.md" ];   then gsutil cp "${workflow_dir}inputs.md"   "${{ inputs.upload_path }}/${workflow_dir}inputs.md"; fi
+          # if [ -f "${workflow_dir}outputs.md" ];  then gsutil cp "${workflow_dir}outputs.md"  "${{ inputs.upload_path }}/${workflow_dir}outputs.md"; fi
         done
