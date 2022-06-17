@@ -38,7 +38,7 @@ jobs:
     # - run: if [ -f "${d}citations.md" ]; then gsutil cp citations.md ${{ inputs.upload_path }}/citations.md; fi
     - run: |
         for workflow_dir in */; do 
-          for pic in $workflow_dir.*png; do 
+          for pic in $workflow_dir*.png; do 
             echo $pic
           done
           # if [ -f "${workflow_dir}README.md" ];   then gsutil cp "${workflow_dir}README.md"   "${{ inputs.upload_path }}/${workflow_dir}readme.md"; fi
